@@ -6,6 +6,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -15,8 +16,7 @@
 <link rel="stylesheet" href='<c:url value="/css/jquery-ui.css"/>'>
 <script src="<c:url value='/js/jquery-3.1.1.min.js'/>"></script>
 <script src="<c:url value='/js/bootstrap.min.js'/>"></script>
-<script src='<c:url value="/js/jquery-ui-1.12.1/jquery-ui.js"/>'
-	type="text/javascript"></script>
+<script src='<c:url value="/js/jquery-ui-1.12.1/jquery-ui.js"/>'	type="text/javascript"></script>
 <script src='<c:url value="/js/utils.js"/>' type="text/javascript"></script>
 
 </head>
@@ -67,20 +67,21 @@
 				<span class="lead">Registro de Conciertos </span>
 			</div>
 			<div class="table-responsive">
-				<form:form method="post" modelAttribute="concierto"
-					id="formconcierto">
-					<table class="table table-hover">
-
-
+				<form:form method="POST" modelAttribute="concierto" enctype="multipart/form-data" >
+			
+					<table class="table">
 						<tr>
 							<th style="width: 15%; text-align: right;"><label
-								for="descripcion">Nombre: </label></th>
+								for="descripcion"> <spring:message
+										code="concierto.nombre" />:
+							</label></th>
 							<td><form:input path="descripcion" id="descripcion" /></td>
 							<td><form:errors path="descripcion" cssClass="error" /></td>
 						</tr>
 						<tr>
 							<th style="width: 15%; text-align: right;"><label
-								for="nombre_sala">Sala: </label></th>
+								for="nombre_sala"><spring:message code="concierto.sala" />:
+							</label></th>
 							<td><form:hidden path="sala.id" id="id_sala" /> <form:input
 									path="sala.nombre" id="nombre_sala" /></td>
 							<td><form:errors path="sala.nombre" cssClass="error" /></td>
@@ -88,7 +89,8 @@
 
 						<tr>
 							<th style="width: 15%; text-align: right;"><label
-								for="nombre_promotor">Promotor: </label></th>
+								for="nombre_promotor"><spring:message
+										code="concierto.promotor" />: </label></th>
 							<td><form:hidden path="promotor.id" id="id_promotor" /> <form:input
 									path="promotor.nombre" id="nombre_promotor" /></td>
 							<td><form:errors path="promotor.nombre" cssClass="error" /></td>
@@ -96,25 +98,32 @@
 
 						<tr id="artistas">
 							<th style="width: 15%; text-align: right;"><label
-								for="nombre_artista">Artista: <input type="hidden"
-									value="nombreartista" /> <input type="hidden" id="idartista" />
+								for="nombre_artista"><spring:message
+										code="concierto.artista" />: <input type="hidden"
+									value="concierto.nombreartista" /> <input type="hidden" id="idartista" />
 
 							</label></th>
 							<td><input type="hidden" name="artistas.id"
 								id="id_artista_0" /> <input type="text" name="artistas.nombre"
 								id="nombre_artista_0" />
 								<button id="nuevoartista" value="Nuevo Artista" type="button">+</button></td>
-							<td><form:select path="artistas"
-									items="${concierto.artistas}" cssStyle="width:200px"
+							<td><form:select path="artistas"	items="${concierto.artistas}" cssStyle="width:200px"
 									id="selectartistas" multiple="true" itemValue="id"
 									itemLabel="nombre" /></td>
 							<td><form:errors path="artistas" /></td>
 						</tr>
 						<tr>
 							<th style="width: 15%; text-align: right;"><label
-								for="fecha">Fecha: </label></th>
+								for="fecha"><spring:message code="concierto.fecha" />: </label></th>
 							<td><form:input path="fecha" id="fecha" size="10" /></td>
 							<td><form:errors path="fecha" cssClass="error" /></td>
+						</tr>
+						<tr>
+							<th style="width: 15%; text-align: right;"><label
+								for="fecha"><spring:message code="concierto.contrato" />:
+							</label></th>
+							<td><form:input type="file" path="fichero" id="fichero" /></td>
+							<td><form:errors path="fichero" cssClass="error" /></td>
 						</tr>
 						<tr>
 							<td colspan="3">&nbsp;</td>
@@ -123,7 +132,8 @@
 						<tr>
 							<td colspan="3" style="text-align: center;"><a
 								href="<c:url value='/listConciertos' />"
-								class="btn btn-primary custom-width">Volver</a> <c:choose>
+								class="btn btn-primary custom-width"><spring:message
+										code="boton.volver" /></a> <c:choose>
 									<c:when test="${edit}">
 										<input type="submit" id="enviar" value="Modificación"
 											class="btn btn-primary" />
@@ -169,8 +179,9 @@
 																			.val()
 																	+ "]")
 													.remove();
-											$('#selectartistas')
-													.append(
+										
+											jQuery('#selectartistas')
+												.append(
 															'<option value="'
 																	+ jQuery(
 																			"#id_artista_0")

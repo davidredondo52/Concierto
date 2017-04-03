@@ -7,6 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -56,10 +60,9 @@ public class ConciertoController {
 	}
 
 	/*
-	 * This method will list all existing employees.
+	 * This method will list all existing conciertos.
 	 */
-	// @RequestMapping(value = { "/", "/listConciertos" }, method =
-	// RequestMethod.GET)
+
 	@RequestMapping(value = { "/listConciertos" }, method = RequestMethod.GET)
 	public String listConciertos(ModelMap model) {
 
@@ -69,8 +72,9 @@ public class ConciertoController {
 	}
 
 	/*
-	 * This method will provide the medium to add a new employee.
+	 * This method will provide the medium to add a new concierto.
 	 */
+	
 	@RequestMapping(value = { "/newConcierto" }, method = RequestMethod.GET)
 	public String newConcierto(ModelMap model) {
 		Concierto concierto = new Concierto();
@@ -81,7 +85,7 @@ public class ConciertoController {
 
 	/*
 	 * This method will be called on form submission, handling POST request for
-	 * saving employee in database. It also validates the user input
+	 * saving concierto in database. It also validates the user input
 	 */
 	@RequestMapping(value = { "/newConcierto" }, method = RequestMethod.POST)
 	public String saveConcierto(@Valid Concierto concierto, BindingResult result, ModelMap model) {
@@ -97,8 +101,9 @@ public class ConciertoController {
 		return "success";
 	}
 
+
 	/*
-	 * This method will provide the medium to update an existing employee.
+	 * This method will provide the medium to update an existing concierto.
 	 */
 	@RequestMapping(value = { "/edit-{id}-concierto" }, method = RequestMethod.GET)
 	public String editConcierto(@PathVariable Integer id, ModelMap model) {
@@ -111,7 +116,7 @@ public class ConciertoController {
 
 	/*
 	 * This method will be called on form submission, handling POST request for
-	 * updating employee in database. It also validates the user input
+	 * updating concierto in database. It also validates the user input
 	 */
 	@RequestMapping(value = { "/edit-{id}-concierto" }, method = RequestMethod.POST)
 	public String updateConcierto(@Valid Concierto concierto, BindingResult result, ModelMap model,
@@ -129,13 +134,40 @@ public class ConciertoController {
 	}
 
 	/*
-	 * This method will delete an employee by it's SSN value.
+	 * This method will delete an concierto by it's SSN value.
 	 */
 	@RequestMapping(value = { "/delete-{id}-concierto" }, method = RequestMethod.GET)
 	public String deleteConcierto(@PathVariable Integer id) {
 		Concierto concierto = conciertoService.findById(id);
 		conciertoService.delete(concierto);
 		return "redirect:/listConciertos";
+	}
+	
+	/*
+	 * This method will provide the medium to update an existing concierto.
+	 */
+	@RequestMapping(value = { "/contrato-{id}-concierto" }, method = RequestMethod.GET)
+	public ResponseEntity<byte[]>  verContratoConcierto(@PathVariable Integer id) {
+
+		   Concierto concierto = conciertoService.findById(id);;
+		    byte[] documentBody =concierto.getContrato();
+		    HttpHeaders header = new HttpHeaders();
+		    header.setContentType(MediaType.parseMediaType("application/pdf"));
+		    header.set(HttpHeaders.CONTENT_DISPOSITION,
+		                   "attachment; filename=Contrato_" + id+".pdf");
+		    header.setContentLength(documentBody.length);
+		    ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(
+		    		documentBody, header, HttpStatus.OK);
+		    return response;
+		    
+		
+	}
+	
+	@RequestMapping(value = { "/error" }, method = RequestMethod.GET)
+	public String error() {
+		
+		
+		return "error";
 	}
 
 }

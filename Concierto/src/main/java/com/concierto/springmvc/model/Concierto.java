@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "CONCIERTO")
@@ -63,6 +65,46 @@ public class Concierto {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date fecha;
 
+	@Column(name = "CONTRATO")
+	private byte[] contrato;
+	@Column(name = "FILE_NAME")
+	private String fileName;
+	
+	
+	
+	
+	@Transient
+	private MultipartFile fichero;
+	
+	
+
+
+	
+
+	public MultipartFile getFichero() {
+		return fichero;
+	}
+
+	public void setFichero(MultipartFile fichero) {
+		this.fichero = fichero;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(byte[] contrato) {
+		this.contrato = contrato;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -103,7 +145,7 @@ public class Concierto {
 		this.fecha = fecha;
 	}
 
-	@OneToOne(optional=false, mappedBy="concierto")
+	@OneToOne(optional = false, mappedBy = "concierto")
 	private Entrada entrada;
 
 	public Entrada getEntrada() {

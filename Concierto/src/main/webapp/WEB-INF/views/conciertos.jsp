@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -26,7 +26,7 @@
 
 			<!-- Default panel contents -->
 			<div class="panel-heading">
-				<span class="lead">Listado of Conciertos </span>
+				<span class="lead">Listado de Conciertos </span>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-hover">
@@ -37,6 +37,7 @@
 						<th>Fecha</th>
 						<th>Sala</th>
 						<th>Promotor</th>
+						<th>Contrato</th>
 						<th></th>
 						<sec:authorize access="hasRole('ADMIN')">
 							<th></th>
@@ -49,6 +50,10 @@
 							<td><fmt:formatDate type="date" value="${concierto.fecha}" /></td>
 							<td>${concierto.sala.nombre}</td>
 							<td>${concierto.promotor.nombre}</td>
+							<td><c:choose>
+									<c:when test="${empty concierto.contrato}">No</c:when>
+									<c:otherwise><a href="<c:url value='/contrato-${concierto.id}-concierto' />">Contrato</a></c:otherwise>
+								</c:choose></td>
 							<td><a
 								href="<c:url value='/edit-${concierto.id}-concierto' />"
 								class="btn btn-success custom-width">Editar</a></td>
@@ -66,12 +71,12 @@
 
 			</div>
 		</div>
-	
-	<sec:authorize access="hasRole('ADMIN')">
-		<div class="well">
-			<a href="<c:url value='/newConcierto' />">Añadir Nuevo Concierto</a>
-		</div>
-	</sec:authorize>
-</div>
+
+		<sec:authorize access="hasRole('ADMIN')">
+			<div class="well">
+				<a href="<c:url value='/newConcierto' />">Añadir Nuevo Concierto</a>
+			</div>
+		</sec:authorize>
+	</div>
 </body>
 </html>
