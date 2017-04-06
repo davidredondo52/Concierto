@@ -25,6 +25,8 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "CONCIERTO")
 public class Concierto {
@@ -66,6 +68,7 @@ public class Concierto {
 	private Date fecha;
 
 	@Column(name = "CONTRATO")
+	@JsonIgnore
 	private byte[] contrato;
 	@Column(name = "FILE_NAME")
 	private String fileName;
