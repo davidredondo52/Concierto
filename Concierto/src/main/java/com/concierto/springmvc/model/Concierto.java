@@ -26,6 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CONCIERTO")
@@ -39,17 +40,17 @@ public class Concierto {
 	private String descripcion;
 
 	@ManyToOne
-	@JoinColumn(name = "id_sala")
+	@JoinColumn(name = "id_sala")	
 	private Sala sala;
 
 	@ManyToOne
-	@JoinColumn(name = "id_promotor")
+	@JoinColumn(name = "id_promotor")	
 	private Promotor promotor;
 
 	@ManyToMany
 	@JoinTable(name = "CONCIERTO_ARTISTA", joinColumns = @JoinColumn(name = "ID_CONCIERTO", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ID_ARTISTA", referencedColumnName = "ID"))
 	@Fetch(FetchMode.JOIN)
-	@Cascade({ CascadeType.MERGE })
+	@Cascade({ CascadeType.MERGE })	
 	private List<Artista> artistas;
 
 	public List<Artista> getArtistas() {
@@ -148,7 +149,8 @@ public class Concierto {
 		this.fecha = fecha;
 	}
 
-	@OneToOne(optional = false, mappedBy = "concierto")
+	@OneToOne(optional = false, mappedBy = "concierto")	
+	@JsonManagedReference
 	private Entrada entrada;
 
 	public Entrada getEntrada() {
