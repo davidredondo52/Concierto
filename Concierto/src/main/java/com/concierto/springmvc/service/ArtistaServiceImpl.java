@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.concierto.springmvc.dao.ArtistaDao;
 import com.concierto.springmvc.model.Artista;
 @Service("artistaService")
-@Transactional
 public class ArtistaServiceImpl implements ArtistaService {
 
 	
@@ -17,14 +16,15 @@ public class ArtistaServiceImpl implements ArtistaService {
     private ArtistaDao artistaDao;
 	
 	public Artista findById(int id) {
-		return artistaDao.findById(id);
+		return artistaDao.findById(id)  ;
 	}
 
+	@Transactional
 	public void save(Artista artista) {
 		artistaDao.save(artista);
 
 	}
-
+	@Transactional
 	public void delete(Artista artista) {
 		artistaDao.delete(artista);
 
@@ -35,14 +35,15 @@ public class ArtistaServiceImpl implements ArtistaService {
 	}
 
 	@Override
+	@Transactional
 	public void update(Artista artista) {
-		artistaDao.update(artista);
+		artistaDao.update(artista.getNombre(), artista.getId());
 		
 	}
 
 	@Override
 	public List<Artista> filtra(Artista artista) {
-		return artistaDao.filtra(artista);
+		return artistaDao.findByNombreOrderByNombre(artista.getNombre());
 	}
 
 }

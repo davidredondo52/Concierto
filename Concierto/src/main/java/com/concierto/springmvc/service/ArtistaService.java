@@ -5,7 +5,8 @@ import java.util.List;
 import com.concierto.springmvc.model.Artista;
 
 public interface ArtistaService {
-Artista findById(int id);
+
+	Artista findById(int id);
 	
 	void save(Artista artista);
     

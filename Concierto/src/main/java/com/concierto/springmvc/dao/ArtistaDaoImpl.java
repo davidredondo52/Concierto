@@ -1,21 +1,11 @@
 package com.concierto.springmvc.dao;
 
-import java.util.List;
+//@Repository("artistaDao")
+@Deprecated
+public class ArtistaDaoImpl /*extends AbstractDao<Integer, Artista> implements ArtistaDao */
+{
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.concierto.springmvc.model.Artista;
-
-@Repository("artistaDao")
-public class ArtistaDaoImpl extends AbstractDao<Integer, Artista> implements ArtistaDao {
-
-	@Autowired
+/*	@Autowired
 	private SessionFactory sessionFactory;
 
 	protected Session currentSession() {
@@ -25,7 +15,7 @@ public class ArtistaDaoImpl extends AbstractDao<Integer, Artista> implements Art
 	public Artista findById(int id) {
 		return getByKey(id);
 	}
-	@Transactional
+
 	public void save(Artista artista) {
 		persist(artista);
 
@@ -62,5 +52,5 @@ public class ArtistaDaoImpl extends AbstractDao<Integer, Artista> implements Art
 		Query query = currentSession().createQuery(queryTxt);
 		return query.list();
 	}
-
+*/
 }

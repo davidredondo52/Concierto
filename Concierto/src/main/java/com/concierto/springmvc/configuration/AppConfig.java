@@ -70,6 +70,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		messageSource.setBasename("messages");
 		return messageSource;
 	}
+	
+	 
 
 	/**
 	 * Optional. It's only required when handling '.' in @PathVariables which
