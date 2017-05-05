@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.concierto.springmvc.dao.ArtistaDao;
 import com.concierto.springmvc.model.Artista;
 @Service("artistaService")
+@Transactional
 public class ArtistaServiceImpl implements ArtistaService {
 
 	
@@ -36,6 +37,7 @@ public class ArtistaServiceImpl implements ArtistaService {
 		return artistaDao.findAll();
 	}
 	
+	@Override
 	public Page<Artista> findAllPage(Pageable pageable)
 	{
 		return artistaDao.findAll(pageable);

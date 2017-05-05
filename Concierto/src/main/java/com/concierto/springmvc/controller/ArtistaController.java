@@ -6,6 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.concierto.springmvc.model.Artista;
 import com.concierto.springmvc.service.ArtistaService;
-import com.concierto.springmvc.validator.ArtistaValidator;
+import com.concierto.springsecurity.util.PageWrapper;
 
 @Controller
 public class ArtistaController {
@@ -26,20 +30,20 @@ public class ArtistaController {
 
 	@Autowired
 	MessageSource messageSource;
-	
+
 	@InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new ArtistaValidator());
-    }
+	protected void initBinder(WebDataBinder binder) {
+		//binder.setValidator(new ArtistaValidator());
+	}
 
 	/*
 	 * This method will list all existing Artistas.
 	 */
-	@RequestMapping(value = {  "/listArtistas" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/listArtistas" }, method = RequestMethod.GET)
 	public String listartistas(ModelMap model) {
 
 		List<Artista> artistas = artistaService.findAll();
-		
+
 		model.addAttribute("artistas", artistas);
 		return "artistas";
 	}
@@ -66,11 +70,10 @@ public class ArtistaController {
 			return "altaArtista";
 		}
 
-		
 		artistaService.save(artista);
 
 		model.addAttribute("success", "Artista " + artista.getNombre() + " dado de alta correctamente");
-		
+
 		return "success";
 	}
 
@@ -79,7 +82,7 @@ public class ArtistaController {
 	 */
 	@RequestMapping(value = { "/edit-{id}-artista" }, method = RequestMethod.GET)
 	public String editArtista(@PathVariable Integer id, ModelMap model) {
-		
+
 		Artista artista = artistaService.findById(id);
 		model.addAttribute("artista", artista);
 		model.addAttribute("edit", true);
@@ -98,12 +101,10 @@ public class ArtistaController {
 			return "altaArtista";
 		}
 
-
 		artistaService.update(artista);
-		
 
 		model.addAttribute("success", "Artista " + artista.getNombre() + " modificado correctamente");
-		
+
 		return "success";
 	}
 
@@ -117,4 +118,16 @@ public class ArtistaController {
 		return "redirect:/listArtistas";
 	}
 
+	// Paginado
+	@RequestMapping(value = { "/listArtistasPag" }, method = RequestMethod.GET)
+	public String listArtistasPag(ModelMap model) {
+		Pageable pg = new PageRequest(1, 10, Direction.ASC, "nombre");
+		Page <Artista> artistasPag=artistaService.findAllPage(pg);
+		PageWrapper<Artista> page = new PageWrapper<Artista>(artistasPag, "/listArtistasPag");
+
+		System.out.println("page size="+page.getSize()+" artistasPag=>"+artistasPag.getSize()+" max getMaxPageItemDisplay"+page.getMaxPageItemDisplay());
+		System.out.println(" paginas=>"+artistasPag.getTotalPages()+" numberofElementes "+artistasPag.getNumberOfElements());
+		model.addAttribute("artistas", page);
+		return "artistasPag";
+	}
 }
