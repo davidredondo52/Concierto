@@ -7,7 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<html>
+<html lang="es">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>pagina</title>
@@ -29,11 +29,12 @@
 
 			<!-- Default panel contents -->
 			<div class="panel-heading">
-				<span class="lead">Listado de pagina </span>
+				<span class="lead">Listado de Artistas </span>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-hover">
 
+					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Nombre</th>
@@ -41,7 +42,9 @@
 						<sec:authorize access="hasRole('ADMIN')">
 							<th></th>
 						</sec:authorize>
-					</tr>
+						</tr>
+					</thead>
+					<tbody>
 					<c:forEach items="${pagina.page.content}" var="artista">
 						<tr>
 							<td>${artista.id}</td>
@@ -55,74 +58,13 @@
 							</sec:authorize>
 						</tr>
 					</c:forEach>
+					</tbody>
 				</table>
 
 			</div>
 		</div>
-		<!-- Pagination Bar -->
-		<div class="container">
-			<div class="pagination pagination-centered">
-				<ul class="pagination">
-					<c:choose>
-						<c:when test="${page.firstPage}">
-							<li class="disabled"><span>&larr; Primero</span></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="<c:url value ='${pagina.url}/0'/>">&larr; Primero</a></li>
-						</c:otherwise>
-					</c:choose>
-					<c:choose>
-						<c:when test="${not pageWrapper.previousPage}">
-							<li class="disabled"><span>${pagina.isPreviousPage}&laquo;</span></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="<c:url value ='${pagina.url}/0'/>">&laquo;</a></li>
-						</c:otherwise>
-					</c:choose>
-
-					<c:forEach items="${pagina.items}" var="item">
-						<c:choose>
-							<c:when test="${item.current}">
-								<li><span class="active">${item.number}</span></li>
-							</c:when>
-							<c:otherwise>
-								<li><span> <a
-										href="<c:url value ='${pagina.url}/${item.number-1}'/>">
-											${item.number}</a></span></li>
-							</c:otherwise>
-						</c:choose>
-
-					</c:forEach>
-
-
-					<c:choose>
-						<c:when test="${pageWrapper.nextPage}">
-							<li><a
-								href="<c:url value = '${pagina.url}/${item.number+1}'/>"
-								title="Go to next page">&raquo;</a></li>
-						</c:when>
-						<c:otherwise>
-							<li class="disabled"><a href="#" title="Go to next page">&raquo;</a></li>
-						</c:otherwise>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${page.lastPage}">
-							<li class="disabled">Last</li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="<c:url value = '${pagina.url}/${pagina.totalPages-1}'/>">Último
-									&rarr;</a></li>
-						</c:otherwise>
-					</c:choose>
-
-
-				</ul>
-			</div>
-		</div>
-
+		
+		<%@include file="paginador.jsp"%>
 		<sec:authorize access="hasRole('ADMIN')">
 			<div class="well">
 				<a href="<c:url value='/newArtista' />">Alta Nuevo Artista</a>

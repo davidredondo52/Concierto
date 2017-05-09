@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-public class PageWrapper<T> implements Page<T>{
-	
+public class PageWrapper<T> implements Page<T> {
+
 	public static final int MAX_PAGE_ITEM_DISPLAY = 10;
 	private Page<T> page;
 	private List<PageItem> items;
@@ -77,15 +77,15 @@ public class PageWrapper<T> implements Page<T>{
 			return true;
 		else
 			return false;
-		
+
 	}
 
 	public boolean isLastPage() {
-		if (getCurrentNumber() == getSize())
+		if (getCurrentNumber() == getTotalPages())
 			return true;
 		else
 			return false;
-		
+
 	}
 
 	public class PageItem {
@@ -137,7 +137,7 @@ public class PageWrapper<T> implements Page<T>{
 
 	@Override
 	public long getTotalElements() {
-		
+
 		return page.getTotalElements();
 	}
 
@@ -151,8 +151,9 @@ public class PageWrapper<T> implements Page<T>{
 
 	@Override
 	public boolean hasNextPage() {
-		System.out.println("getCurrentNumber()"+getCurrentNumber()+"<"+getSize()+">"+1);
-		if (getCurrentNumber() < getSize() && getSize() > 1)
+		System.out.println(
+				"getCurrentNumber()" + getCurrentNumber() + "< totalPages" + getTotalPages() + "> getSize" + getSize());
+		if (getCurrentNumber() < getTotalPages() && getSize() > 1)
 			return true;
 		else
 			return false;
@@ -175,18 +176,11 @@ public class PageWrapper<T> implements Page<T>{
 	}
 
 	public boolean isNextPage() {
-		System.out.println("getCurrentNumber()"+getCurrentNumber()+"<"+getSize()+">"+1);
-		if (getCurrentNumber() < getSize() && getSize() > 1)
-			return true;
-		else
-			return false;
+
+		return hasNextPage();
 	}
-	
 
 	public boolean isPreviousPage() {
-		if (getCurrentNumber() > 1 && getSize() > 1)
-			return true;
-		else
-			return false;
+		return hasPreviousPage();
 	}
 }

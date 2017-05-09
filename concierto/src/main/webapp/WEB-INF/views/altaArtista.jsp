@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -13,7 +14,7 @@
 	type="text/javascript"></script>
 <script src='<c:url value="/js/utils.js"/>' type="text/javascript"></script>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alta Artista</title>
 </head>
 
@@ -30,34 +31,27 @@
 			</div>
 			<div class="table-responsive">
 				<form:form method="post" modelAttribute="artista" id="formartista">
-					<table class="table table-hover">
-						<tr>
-							<td colspan="3">&nbsp;</td>
-						</tr>
-						<tr>
-							<th style="width: 15%; text-align: right;"><label
-								for="descripcion">Nombre: </label></th>
-							<th><form:input path="nombre" id="nombre" /></th>
-							<th><form:errors path="nombre" cssClass="error" /></th>
-						</tr>
 
-						<tr>
-							<td colspan="3">&nbsp;</td>
-						</tr>
+					<div class="form-group  input-group-sm input-group-md input-group-lg">
+						<label for="nombre">Nombre: </label>
+						<form:input path="nombre" id="nombre" cssClass="form-control"/>
+						<form:errors path="nombre" cssClass="error" />
+					</div>
+					<div class="btn-group">
+						<a href="<c:url value='/listArtistas' />"
+							class="btn btn-primary custom-width">Volver</a>
+						<c:choose>
+							<c:when test="${edit}">
+								<input type="submit" id="enviar" value="Modificación"
+									class="btn btn-primary" />
+							</c:when>
+							<c:otherwise>
+								<input type="submit" id="enviar" value="Nuevo"
+									class="btn btn-primary" />
+							</c:otherwise>
+						</c:choose>
 
-						<tr>
-							<td  colspan="3" style="text-align: center;"><a
-								href="<c:url value='/listArtistas' />"
-								class="btn btn-primary custom-width">Volver</a><c:choose>
-									<c:when test="${edit}">
-										<input type="submit" id="enviar" value="Modificación" class="btn btn-primary"/>
-									</c:when>
-									<c:otherwise>
-										<input type="submit" id="enviar" value="Nuevo" class="btn btn-primary"/>
-									</c:otherwise>
-								</c:choose></td>
-						</tr>
-					</table>
+					</div>
 
 				</form:form>
 				<br /> <br />

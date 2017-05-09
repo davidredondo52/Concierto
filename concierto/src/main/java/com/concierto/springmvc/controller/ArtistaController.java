@@ -115,27 +115,21 @@ public class ArtistaController {
 	public String deleteartista(@PathVariable Integer id) {
 		Artista artista = artistaService.findById(id);
 		artistaService.delete(artista);
-		return "redirect:/listArtistas";
+		return "redirect:/listArtistasPag/0";
 	}
 
 	// Paginado
 	@RequestMapping(value = { "/listArtistasPag/{pag}" }, method = RequestMethod.GET)
 	public String listArtistasPag(@PathVariable Integer pag, ModelMap model) {
 
-		//Pageable pg = new PageRequest(pag, PageWrapper.MAX_PAGE_ITEM_DISPLAY, Direction.ASC, "nombre");
+		// Pageable pg = new PageRequest(pag, PageWrapper.MAX_PAGE_ITEM_DISPLAY,
+		// Direction.ASC, "nombre");
 		Pageable pg = new PageRequest(pag, 3, Direction.ASC, "nombre");
 		Page<Artista> artistasPag = artistaService.findAllPage(pg);
-
+		// Envoltorio de la pagina para poder hacer la paginacion
 		PageWrapper<Artista> page = new PageWrapper<Artista>(artistasPag, "/listArtistasPag");
 
-		System.out.println("page size=" + page.getSize() + " artistasPag=>" + artistasPag.getSize()
-				+ " max getCurrentNumber" + page.getCurrentNumber());
-		System.out.println(" paginas=>" + artistasPag.getTotalPages() + " numberofElementes "
-				+ artistasPag.getNumberOfElements() + " page url=>" + page.getUrl());
 		
-		System.out.println(" hasNextElemento=>" + page.hasNextPage() + " hasPreviousPage=> "
-				+ page.hasPreviousPage() + " page url=>" + page.getUrl());
-
 		model.addAttribute("pagina", page);
 
 		return "artistasPag";

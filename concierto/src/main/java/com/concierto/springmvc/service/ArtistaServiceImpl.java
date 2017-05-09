@@ -29,6 +29,7 @@ public class ArtistaServiceImpl implements ArtistaService {
 	}
 	@Transactional
 	public void delete(Artista artista) {
+		System.out.println("Delete "+artista.getNombre());
 		artistaDao.delete(artista);
 
 	}
@@ -43,8 +44,7 @@ public class ArtistaServiceImpl implements ArtistaService {
 		return artistaDao.findAll(pageable);
 	}
 
-	@Override
-	@Transactional
+	@Override	
 	public void update(Artista artista) {
 		artistaDao.update(artista.getNombre(), artista.getId());
 		
