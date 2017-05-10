@@ -10,16 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.concierto.springmvc.dao.ArtistaDao;
 import com.concierto.springmvc.model.Artista;
-@Service("artistaService")
-@Transactional
-public class ArtistaServiceImpl implements ArtistaService {
 
-	
+@Service("artistaService")
+public class ArtistaServiceImpl implements ArtistaService {
+	private ArtistaDao artistaDao;
+
 	@Autowired
-    private ArtistaDao artistaDao;
-	
+	public ArtistaServiceImpl(ArtistaDao artistaDao) {
+		this.artistaDao = artistaDao;
+	}
+
 	public Artista findById(int id) {
-		return artistaDao.findById(id)  ;
+		return artistaDao.findById(id);
 	}
 
 	@Transactional
@@ -27,8 +29,10 @@ public class ArtistaServiceImpl implements ArtistaService {
 		artistaDao.save(artista);
 
 	}
-	@Transactional
+
+	@Transactional("transactionManagerJPA")
 	public void delete(Artista artista) {
+		System.out.println("Delete " + artista.getNombre());
 		artistaDao.delete(artista);
 
 	}
@@ -36,18 +40,20 @@ public class ArtistaServiceImpl implements ArtistaService {
 	public List<Artista> findAll() {
 		return artistaDao.findAll();
 	}
-	
+
 	@Override
-	public Page<Artista> findAllPage(Pageable pageable)
-	{
+	public Page<Artista> findAllPage(Pageable pageable) {
 		return artistaDao.findAll(pageable);
 	}
 
 	@Override
-	@Transactional
+	@Transactional("transactionManagerJPA")
 	public void update(Artista artista) {
+		System.out.println("uPDATE SERVICE");
+		
 		artistaDao.update(artista.getNombre(), artista.getId());
 		
+
 	}
 
 	@Override

@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.concierto.springmvc.model.Artista;
+import com.concierto.springmvc.pagination.utils.PageWrapper;
 import com.concierto.springmvc.service.ArtistaService;
-import com.concierto.springsecurity.util.PageWrapper;
 
 @Controller
 public class ArtistaController {
@@ -33,7 +33,7 @@ public class ArtistaController {
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
-		//binder.setValidator(new ArtistaValidator());
+		// binder.setValidator(new ArtistaValidator());
 	}
 
 	/*
@@ -115,19 +115,23 @@ public class ArtistaController {
 	public String deleteartista(@PathVariable Integer id) {
 		Artista artista = artistaService.findById(id);
 		artistaService.delete(artista);
-		return "redirect:/listArtistas";
+		return "redirect:/listArtistasPag/0";
 	}
 
 	// Paginado
-	@RequestMapping(value = { "/listArtistasPag" }, method = RequestMethod.GET)
-	public String listArtistasPag(ModelMap model) {
-		Pageable pg = new PageRequest(1, 10, Direction.ASC, "nombre");
-		Page <Artista> artistasPag=artistaService.findAllPage(pg);
+	@RequestMapping(value = { "/listArtistasPag/{pag}" }, method = RequestMethod.GET)
+	public String listArtistasPag(@PathVariable Integer pag, ModelMap model) {
+
+		// Pageable pg = new PageRequest(pag, PageWrapper.MAX_PAGE_ITEM_DISPLAY,
+		// Direction.ASC, "nombre");
+		Pageable pg = new PageRequest(pag, 3, Direction.ASC, "nombre");
+		Page<Artista> artistasPag = artistaService.findAllPage(pg);
+		// Envoltorio de la pagina para poder hacer la paginacion
 		PageWrapper<Artista> page = new PageWrapper<Artista>(artistasPag, "/listArtistasPag");
 
-		System.out.println("page size="+page.getSize()+" artistasPag=>"+artistasPag.getSize()+" max getMaxPageItemDisplay"+page.getMaxPageItemDisplay());
-		System.out.println(" paginas=>"+artistasPag.getTotalPages()+" numberofElementes "+artistasPag.getNumberOfElements());
-		model.addAttribute("artistas", page);
+		
+		model.addAttribute("pagina", page);
+
 		return "artistasPag";
 	}
 }

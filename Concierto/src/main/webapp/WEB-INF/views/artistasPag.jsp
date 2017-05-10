@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -5,10 +7,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<html>
+<html lang="es">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Artistas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pagina</title>
 <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css' />">
 <link rel="stylesheet" href='<c:url value="/css/jquery-ui.css"/>'>
 <script src="<c:url value='/js/jquery-3.1.1.min.js'/>"></script>
@@ -27,11 +29,12 @@
 
 			<!-- Default panel contents -->
 			<div class="panel-heading">
-				<span class="lead">Listado of Artistas </span>
+				<span class="lead">Listado de Artistas </span>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-hover">
 
+					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Nombre</th>
@@ -39,8 +42,10 @@
 						<sec:authorize access="hasRole('ADMIN')">
 							<th></th>
 						</sec:authorize>
-					</tr>
-					<c:forEach items="${artistas.page.content}" var="artista">
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach items="${pagina.page.content}" var="artista">
 						<tr>
 							<td>${artista.id}</td>
 							<td>${artista.nombre}</td>
@@ -53,81 +58,13 @@
 							</sec:authorize>
 						</tr>
 					</c:forEach>
+					</tbody>
 				</table>
 
 			</div>
 		</div>
-		<!-- Pagination Bar -->
-		<div class="container">
-			<div class="pagination pagination-centered">
-				<ul class="pagination">
-					<c:choose>
-						<c:when test="${page.firstPage}">
-							<li class="disabled"><span>First</span></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="${page.url}(page.page=1,page.size=${page.size}">&larr;
-									First</a></li>
-						</c:otherwise>
-					</c:choose>
-					<c:choose>
-						<c:when test="${not page.hasPreviousPage}">
-							<li class="disabled"><span>&laquo;</span></li>
-						</c:when>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${not page.hasPreviousPage}">
-
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${page.url}(page.page=${page.number-1},page.size=${page.size})}"
-								title="Go to previous page">&laquo;</a></li>
-						</c:otherwise>
-
-					</c:choose>
-
-					<c:forEach items="${page.items}" var="item">
-						<c:choose>
-							<c:when test="${item.current}">
-								<li><span class="active">${item.number}</span></li>
-							</c:when>
-							<c:otherwise>
-								<li><span> <a
-										href="@{${page.url}(page.page=${item.number},page.size=${page.size})}">
-											${item.number}">1</a>${item.number}</span></li>
-							</c:otherwise>
-						</c:choose>
-
-					</c:forEach>
-					<c:choose>
-						<c:when test="${page.hasNextPage}">
-							<li><a if="${page.hasNextPage}"
-								href="@{${page.url}(page.page=${page.number+1},page.size=${page.size})}"
-								title="Go to next page">&raquo;</a></li>
-						</c:when>
-						<c:otherwise>
-							<li class="disabled"></li>
-						</c:otherwise>
-					</c:choose>
-
-					<c:choose>
-						<c:when test="${page.lastPage}">
-							<li class="disabled">Last</li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="@{${page.url}(page.page=${page.totalPages},page.size=${page.size})}">Last
-									&rarr;</a></li>
-						</c:otherwise>
-					</c:choose>
-
-
-				</ul>
-			</div>
-		</div>
-
+		
+		<%@include file="paginador.jsp"%>
 		<sec:authorize access="hasRole('ADMIN')">
 			<div class="well">
 				<a href="<c:url value='/newArtista' />">Alta Nuevo Artista</a>
