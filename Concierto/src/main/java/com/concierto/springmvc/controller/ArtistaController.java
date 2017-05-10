@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.concierto.springmvc.model.Artista;
-import com.concierto.springmvc.pagination.utils.PageWrapper;
 import com.concierto.springmvc.service.ArtistaService;
+import com.concierto.springsecurity.util.PageWrapper;
 
 @Controller
 public class ArtistaController {
