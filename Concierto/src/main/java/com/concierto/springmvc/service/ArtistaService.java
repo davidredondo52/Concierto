@@ -2,6 +2,9 @@ package com.concierto.springmvc.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.concierto.springmvc.model.Artista;
 
 public interface ArtistaService {
@@ -16,4 +19,6 @@ public interface ArtistaService {
     
     void update(Artista artista);
     List<Artista> filtra(Artista artista);
+    
+    public Page<Artista> findAllPage(Pageable pageable);
 }

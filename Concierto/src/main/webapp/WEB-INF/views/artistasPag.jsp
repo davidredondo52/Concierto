@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -5,10 +7,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<html>
+<html lang="es">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Artistas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pagina</title>
 <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css' />">
 <link rel="stylesheet" href='<c:url value="/css/jquery-ui.css"/>'>
 <script src="<c:url value='/js/jquery-3.1.1.min.js'/>"></script>
@@ -27,11 +29,12 @@
 
 			<!-- Default panel contents -->
 			<div class="panel-heading">
-				<span class="lead">Listado of Promotores </span>
+				<span class="lead">Listado de Artistas </span>
 			</div>
 			<div class="table-responsive">
 				<table class="table table-hover">
 
+					<thead>
 					<tr>
 						<th>ID</th>
 						<th>Nombre</th>
@@ -39,31 +42,35 @@
 						<sec:authorize access="hasRole('ADMIN')">
 							<th></th>
 						</sec:authorize>
-					</tr>
-					<c:forEach items="${promotores}" var="promotor">
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach items="${pagina.page.content}" var="artista">
 						<tr>
-							<td>${promotor.id}</td>
-							<td>${promotor.nombre}</td>
-
-							<td><a
-								href="<c:url value='/edit-${promotor.id}-promotor' />" class="btn btn-success custom-width">Editar</a></td>
+							<td>${artista.id}</td>
+							<td>${artista.nombre}</td>
+							<td><a href="<c:url value='/edit-${artista.id}-artista' />"
+								class="btn btn-success custom-width">Editar</a></td>
 							<sec:authorize access="hasRole('ADMIN')">
 								<td><a
-									href="<c:url value='/delete-${promotor.id}-promotor' />" class="btn btn-danger custom-width">Borrar</a></td>
+									href="<c:url value='/delete-${artista.id}-artista' />"
+									class="btn btn-danger custom-width">Borrar</a></td>
 							</sec:authorize>
 						</tr>
 					</c:forEach>
+					</tbody>
 				</table>
+
 			</div>
 		</div>
+		
+		<%@include file="paginador.jsp"%>
 		<sec:authorize access="hasRole('ADMIN')">
 			<div class="well">
-				<a href="<c:url value='/newPromotor' />">Alta Nuevo Promotor</a>
-
+				<a href="<c:url value='/newArtista' />">Alta Nuevo Artista</a>
 			</div>
 		</sec:authorize>
 
 	</div>
-
 </body>
 </html>

@@ -9,7 +9,7 @@
 			<li class="current_page_item"><a
 				href="<c:url value='/listConciertos' />">Conciertos</a></li>
 			<li><a href="<c:url value='/listEntradas' />">Entradas</a></li>
-			<li><a href="<c:url value='/listArtistas' />">Artistas </a></li>
+			<li><a href="<c:url value='/listArtistasPag/0' />">Artistas </a></li>
 			<li><a href="<c:url value='/listSalas' />">Salas </a></li>
 			<li><a href="<c:url value='/listPromotores' />">Promotores</a></li>
 			<li><a href="<c:url value='/listContactos' />">Contactos </a></li>
